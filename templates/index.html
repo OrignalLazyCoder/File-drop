@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>
+            File Drop
+        </title>
+    </head>
+    <body>
+        <center>
+            hi user:<b><u>{{ user_id }}</u></b>
+        </center>
+        <ol>
+            <li><a href="{{ url_for ('mine')}}">Do Mining</a></li>
+            <li><a href="{{ url_for('chain') }}">Check chain</a></li>
+            <li><a href="{{ url_for('new')}}">create transaction</a></li>
+        </ol>
+    </body>
+</html>
