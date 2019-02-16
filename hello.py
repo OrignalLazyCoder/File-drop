@@ -1,13 +1,14 @@
-from flask import Flask
-from flask import request
 from flask import render_template
-from flask import jsonify
-from time import time
+import hashlib
 from hashlib import sha256
 import json
-from textwrap import dedent
-from uuid import uuid4 
-from urllib.parse import urlparse 
+from time import time
+from urllib.parse import urlparse
+from uuid import uuid4
+
+import requests
+from flask import Flask, jsonify, request
+
 
 class Blockchain:
     def __init__(self):
@@ -67,7 +68,8 @@ class Blockchain:
 
         #Grab and verify the chains from all nodes in network
         for node in neigbours:
-            response = request.json.get('http://{{node}}/chain')
+            response = requests.get('http://{}/chain'.format(node))
+            print(response)
 
             if response.status_code == 200:
                 length = response.json()['length']
@@ -287,4 +289,11 @@ def consensus():
     return jsonify(response), 200
 
 if __name__ == '__main__':
-    app.run(port=5000 , debug=True)
+    from argparse import ArgumentParser
+
+    parser = ArgumentParser()
+    parser.add_argument('-p', '--port', default=5000, type=int, help='port to listen on')
+    args = parser.parse_args()
+    port = args.port
+
+    app.run(host='0.0.0.0', port=port , debug=True)
