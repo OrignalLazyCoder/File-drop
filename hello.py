@@ -7,7 +7,7 @@ from hashlib import sha256
 import json
 from textwrap import dedent
 from uuid import uuid4 
-from urllib.parse import urlparse
+from urllib.parse import urlparse 
 
 class Blockchain:
     def __init__(self):
