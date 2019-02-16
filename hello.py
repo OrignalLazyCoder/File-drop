@@ -17,6 +17,7 @@ class Blockchain:
 
         #this will hold the list of nodes
         self.nodes = set()
+        self.port = None
 
         #Create genesis block
         self.new_block(previous_hash = 1 , proof = 100)
@@ -194,7 +195,7 @@ blockchain = Blockchain()
 
 @app.route('/')
 def index():
-    return render_template("index.html" , user_id = node_identifier)
+    return render_template("index.html" , user_id = node_identifier , port = blockchain.port)
 
 @app.route('/mine' , methods = ['GET'])
 def mine():
@@ -253,11 +254,12 @@ def chain():
 def new():
     return render_template("new.html", user_id = node_identifier)
 
-@app.route('/nodes/register', methods=['POST'])
-def register_nodes():
-    values = request.get_json()
 
-    nodes = values.get('nodes')
+@app.route('/register', methods=['POST'])
+def register_nodes():
+    # values = request.get_json()
+    nodes = []
+    nodes.append(request.form['nodes'])
     if nodes is None:
         return "Error: Please supply a valid list of nodes", 400
 
@@ -271,7 +273,7 @@ def register_nodes():
     return jsonify(response), 201
 
 
-@app.route('/nodes/resolve', methods=['GET'])
+@app.route('/resolve', methods=['GET'])
 def consensus():
     replaced = blockchain.resolve_conflicts()
 
@@ -295,5 +297,7 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--port', default=5000, type=int, help='port to listen on')
     args = parser.parse_args()
     port = args.port
+
+    blockchain.port = port
 
     app.run(host='0.0.0.0', port=port , debug=True)

@@ -6,14 +6,19 @@
     </head>
     <body>
         <center>
-            hi user:<b><u>{{ user_id }}</u></b>
+            hi user:<b><u>{{ user_id }} on port {{port}}</u></b>
         </center>
         <ol>
             <li><a href="{{ url_for ('mine')}}">Do Mining</a></li>
             <li><a href="{{ url_for('chain') }}">Check chain</a></li>
             <li><a href="{{ url_for('new')}}">create transaction</a></li>
         </ol>
-
+            {%if port != 5000%}
+            <form action="http://localhost:5000/register" method="POST">
+                your address to register : <input type="text" name="nodes" value="http://127.0.0.1:{{port}}"  >
+                <input type="submit">
+            </form>
+            {%endif%}
         <h1>total active nodes</h1>
         <ul>
 
