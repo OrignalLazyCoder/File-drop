@@ -3,6 +3,11 @@
         <title>
             File Drop
         </title>
+        <script>
+            function error(){
+                alert("Nah! Do not edit that");
+            }
+        </script>
     </head>
     <body>
         <center>
@@ -15,7 +20,7 @@
         </ol>
             {%if port != 5000%}
             <form action="http://localhost:5000/register" method="POST">
-                your address to register : <input type="text" name="nodes" value="http://127.0.0.1:{{port}}"  >
+                your address to register : <input type="text" name="nodes" value="http://127.0.0.1:{{port}}" onmouseover="error()" >
                 <input type="submit">
             </form>
             {%endif%}
